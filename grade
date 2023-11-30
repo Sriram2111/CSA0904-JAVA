@@ -1,0 +1,63 @@
+import java.util.Scanner;
+
+interface Subject {
+    void getMarks();
+}
+interface CalculateAggregate {
+    double calculateAggregate();
+}
+
+interface CalculateGrade {
+    String calculateGrade(double aggregate);
+}
+
+class Student implements Subject, CalculateAggregate, CalculateGrade {
+    private int[] marks = new int[6];
+    public void getMarks() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter marks for six subjects:");
+
+        for (int i = 0; i < marks.length; i++) {
+            System.out.print("Subject " + (i + 1) + ": ");
+            marks[i] = scanner.nextInt();
+        }
+    }
+    public double calculateAggregate() {
+        int totalMarks = 0;
+
+        for (int mark : marks) {
+            totalMarks += mark;
+        }
+
+        return (double) totalMarks / marks.length;
+    }
+    public String calculateGrade(double aggregate) {
+        if (aggregate > 75) {
+            return "Distinction";
+        } else if (aggregate >= 60 && aggregate <= 75) {
+            return "First Division";
+        } else if (aggregate >= 50 && aggregate < 60) {
+            return "Second Division";
+        } else if (aggregate >= 40 && aggregate < 50) {
+            return "Third Division";
+        } else {
+            return "FAIL";
+        }
+    }
+    public void displayGrade() {
+        getMarks();
+        double aggregate = calculateAggregate();
+        String grade = calculateGrade(aggregate);
+
+        System.out.println("Total Marks: " + (int) (calculateAggregate() * 6));
+        System.out.println("Aggregate: " + aggregate);
+        System.out.println("Grade: " + grade);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Student student = new Student();
+        student.displayGrade();
+    }
+}
